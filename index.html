@@ -69,14 +69,21 @@
 
     <script>
 
-        window.onload = async function(){
-            await liff.init({ liffId: "2007473769-mXgL6e9A" });
+        window.onload = function(){
+
+            liff
+            .init({liffId: '2007473769-X2b0VRJI'})
+            .then(() => {
+                initializeApp();
+                })
+
 
             if (!liff.isLoggedIn()) {
                 liff.login();
                 return;
             }
-            const profile = await liff.getProfile();
+
+            const profile = liff.getProfile();
             const line_Id = profile.userId;
 
             const form_url = "https://docs.google.com/forms/d/e/1FAIpQLSdDPc6wn3QlnbdguD_SJnLZgcmg60o_7B0_uZ1muaaZdinm4w/viewform";
@@ -94,3 +101,5 @@
     </script>
 </body>
 </html>
+
+
