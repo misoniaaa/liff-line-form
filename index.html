@@ -1,35 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>LIFF LINE ID 自動送信フォーム</title>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <meta charset="UTF-8">
+    <title>LIFF LINE ID 自動送信フォーム</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <style>
+        .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        }
+        .loading-bar {
+        display: inline-block;
+        width: 4px;
+        height: 18px;
+        border-radius: 4px;
+        animation: loading 1s ease-in-out infinite;
+        }
+        .loading-bar:nth-child(1) {
+        background-color: #3498db;
+        animation-delay: 0;
+        }
+        .loading-bar:nth-child(2) {
+        background-color: #c0392b;
+        animation-delay: 0.09s;
+        }
+        .loading-bar:nth-child(3) {
+        background-color: #f1c40f;
+        animation-delay: .18s;
+        }
+        .loading-bar:nth-child(4) {
+        background-color: #27ae60;
+        animation-delay: .27s;
+        }
+
+        @keyframes loading {
+        0% {
+            transform: scale(1);
+        }
+        20% {
+            transform: scale(1, 2.2);
+        }
+        40% {
+            transform: scale(1);
+        }
+        }
+
+    </style>
+
 </head>
 <body>
-  <h3>送信中...しばらくお待ちください</h3>
-    <form id="line-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdDPc6wn3QlnbdguD_SJnLZgcmg60o_7B0_uZ1muaaZdinm4w/formResponse" method="POST">
-    <input type="hidden" name="entry.906494786"id="lineIdInput">
-    <input type="submit" value="送信">
-  </form>
 
-  <script>
-    async function main() {
-      await liff.init({ liffId: "2007473769-X2b0VRJI" });
+    <div class="loading">
+    <div class="loading-bar"></div>
+    <div class="loading-bar"></div>
+    <div class="loading-bar"></div>
+    <div class="loading-bar"></div>
+    </div>
 
-      if (!liff.isLoggedIn()) {
-        liff.login();
-        return;
-      }
+    <div class="mikepad-loading">
+    <div class="binding"></div>
+    <div class="pad">
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+    </div>
 
-      const profile = await liff.getProfile();
-      const lineId = profile.userId;
+    <script>
 
-      document.getElementById("lineIdInput").value = lineId;
-      document.getElementById("line-form").submit();
-      console.log("LIFF init OK");
-      console.log("lineId:", lineId);
-    }
-    main();
-  </script>
+        window.onload = async function(){
+            await liff.init({ liffId: "2007473769-X2b0VRJI" });
+
+            if (!liff.isLoggedIn()) {
+                liff.login();
+                return;
+            }
+            const profile = await liff.getProfile();
+            const line_Id = profile.userId;
+
+            const form_url = "https://docs.google.com/forms/d/e/1FAIpQLSdDPc6wn3QlnbdguD_SJnLZgcmg60o_7B0_uZ1muaaZdinm4w/viewform";
+
+            const params = new URLSearchParams({
+            "entry.906494786": line_Id,
+            "pageHistory": "1"
+            });
+
+            const full_url = ${form_url}?${params.toString()};
+            window.location.href = full_url;
+
+        }
+
+    </script>
 </body>
 </html>
+[9:19]
+<!DOCTYPE html>
